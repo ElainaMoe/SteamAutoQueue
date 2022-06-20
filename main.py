@@ -42,7 +42,7 @@ if __name__ == '__main__':
 \ \| __/ _ \/ _` | '_ ` _ \   //_\\| | | | __/ _ \   //  / / | | |/ _ \ | | |/ _ \
 _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  __/
 \__/\__\___|\__,_|_| |_| |_| \_/ \_/\__,_|\__\___/  \___,_\ \__,_|\___|\__,_|\___|
-                                                                                  '''
+                                                     -- Made by GamerNoTitle      '''
     print(logo)
     # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
     option = webdriver.ChromeOptions()
@@ -67,12 +67,11 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         if not os.path.exists('./driver/chromedriver'):
             download(
                 'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
-            with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
-                chromedriver.extractall(path='./driver')
+            os.system('unzip chromedriver.zip')
             os.system('sudo rm -rf "./chromedriver.zip"')
-            os.system('sudo chmod +x "./driver/*"')
+            os.system('sudo chmod +x "chromedriver"')
         browser = webdriver.Chrome(
-            service=Service('./driver/chromedriver'), options=option)
+            service=Service('./chromedriver'), options=option)
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
             download(
