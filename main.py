@@ -94,11 +94,16 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         os._exit(0)
 
     # Browse Steam page
-    browser.get('https://store.steampowered.com/?l=english')
+    browser.get('https://store.steampowered.com/')
     for i in cookies:   # Must behind of get, or the browser doesn't know which website to add
         # Set cookies to get logging in
         browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})
     browser.refresh()
+
+    try:
+        username = browser.find_element(by=By.CLASS_NAME, value='menuitem supernav username persona_name_text_content').text
+    except Exception as e:
+        print(f'It seems that you are not logged in. Excepted: {e}')
 
     '''
     webdriver.find_element_by_* has been deprecated, use webdriver.find_element(by=By.*, value='') instead
