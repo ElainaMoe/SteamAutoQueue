@@ -64,14 +64,16 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         print('You need to configure your cookie first!')
         os._exit(0)
     if sys.platform == 'linux':
-        if not os.path.exists('./driver/chromedriver'):
+        if not os.path.exists('./chromedriver'):
             download(
                 'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
             os.system('unzip chromedriver.zip')
             os.system('sudo rm -rf "./chromedriver.zip"')
             os.system('sudo chmod +x "chromedriver"')
+        option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
+        option.add_argument('--disable-dev-shm-usage')
         browser = webdriver.Chrome(
             service=Service('./chromedriver'), options=option)
     elif sys.platform == 'win32':
