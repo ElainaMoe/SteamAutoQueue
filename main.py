@@ -70,6 +70,8 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
             os.system('unzip chromedriver.zip')
             os.system('sudo rm -rf "./chromedriver.zip"')
             os.system('sudo chmod +x "chromedriver"')
+        option.add_argument('--no-sandbox')
+        option.add_argument('--disable-gpu')
         browser = webdriver.Chrome(
             service=Service('./chromedriver'), options=option)
     elif sys.platform == 'win32':
