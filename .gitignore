@@ -1,2 +1,5 @@
 driver
 config.json
+dist
+build
+main.spec
