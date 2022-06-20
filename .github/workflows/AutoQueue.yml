@@ -31,6 +31,11 @@ jobs:
         pip install -r requirements.txt
     - name: Run script
       env: 
-        CONFIG: ${{ secrets.CONFIG }}
+        sessionid: ${{ secrets.sessionid }}
+        steamRememberLogin: ${{ secrets.steamRememberLogin }} }},
+        steamMachineAuth: ${{ secrets.steamMachineAuth }}
+        steamLoginSecure: ${{ secrets.steamLoginSecure }}
+        browserid: ${{ secrets.browserid }}
+        steamID64: ${{ secrets.steamID64 }}
       run: |
         python3 main.py
