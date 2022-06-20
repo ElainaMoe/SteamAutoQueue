@@ -33,14 +33,15 @@ if os.path.exists('config.json'):
         config = json.load(file)
         if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
             cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                   ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
-        else:   
+                       ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+        else:
             print('You need to configure your cookie first!')
             os._exit(0)
 else:
-    cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'), 
-    f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'), 
-    'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+    cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
+               f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
+               'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+    config={'proxy': ''}
 
 if __name__ == '__main__':
     logo = r''' __ _                           _         _            ____                       
