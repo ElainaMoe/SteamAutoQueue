@@ -31,7 +31,7 @@ if os.path.exists('config.json'):
     with open('config.json') as file:
         config = json.load(file)
 else:
-    config = json.load(os.environ.get('CONFIG'))
+    config = json.loads(os.environ.get('CONFIG'))
     if config == '':
         print('You need to configure the config first!')
         os._exit(0)
