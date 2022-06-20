@@ -10,7 +10,7 @@ import zipfile
 import json
 
 # Debug mode, set true to show chrome window, false to hide it
-debug = True
+debug = False
 
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
