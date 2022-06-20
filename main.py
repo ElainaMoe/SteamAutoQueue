@@ -69,8 +69,8 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                 'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
             with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
                 chromedriver.extractall(path='./driver')
-            os.system('rm -rf "./chromedriver"')
-            os.system('chmod +x "./driver/*"')
+            os.system('sudo rm -rf "./chromedriver.zip"')
+            os.system('sudo chmod +x "./driver/*"')
         browser = webdriver.Chrome(
             service=Service('./driver/chromedriver'), options=option)
     elif sys.platform == 'win32':
