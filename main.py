@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 import sys
 import requests as r
 from tqdm import tqdm
@@ -9,7 +10,7 @@ import zipfile
 import json
 
 # Debug mode, set true to show chrome window, false to hide it
-debug = False
+debug = True
 
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
@@ -43,20 +44,19 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
 \__/\__\___|\__,_|_| |_| |_| \_/ \_/\__,_|\__\___/  \___,_\ \__,_|\___|\__,_|\___|
                                                                                   '''
     print(logo)
+    # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
+    option = webdriver.ChromeOptions()
+    option.add_experimental_option("excludeSwitches", ['ignore-certificate-errors','ignore-ssl-errors'])
     if debug:
         if config['proxy'] != '':
-            option = webdriver.ChromeOptions()
-            option.add_argument(f'--proxy-server={config["proxy"]}')
+            option.add_argument(f'--ignore-certificate-errors --proxy-server={config["proxy"]}')
         else:
-            option = webdriver.ChromeOptions()
-            option.add_argument(f'')
+            option.add_argument(f'--ignore-certificate-errors')
     else:
         if config['proxy'] != '':
-            option = webdriver.ChromeOptions()
-            option.add_argument(f'headless --proxy-server={config["proxy"]}')
+            option.add_argument(f'headless --ignore-certificate-errors --proxy-server={config["proxy"]}')
         else:
-            option = webdriver.ChromeOptions()
-            option.add_argument(f'headless')
+            option.add_argument(f'headless --ignore-certificate-errors')
     if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
         cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
                   ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
@@ -72,7 +72,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
             os.system('rm -rf "./chromedriver"')
             os.system('chmod +x "./driver/*"')
         browser = webdriver.Chrome(
-            executable_path='./driver/chromedriver', options=option)
+            service=Service('./driver/chromedriver'), options=option)
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
             download(
@@ -81,7 +81,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                 chromedriver.extractall(path='./driver')
             os.system('del /q /f "chromedriver.zip"')
         browser = webdriver.Chrome(
-            executable_path='./driver/chromedriver.exe', options=option)
+            service=Service('./driver/chromedriver.exe'), options=option)
     else:
         print(f'Unsupported platform {sys.platform}')
         os._exit(0)
@@ -111,10 +111,16 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
             try:
                 # game = browser.find_element_by_id('appHubAppName').text
                 link = browser.current_url
-                game = browser.find_element(by=By.ID, value='appHubAppName').text
-                print(f'Exploring {game} with link {link}')
-                # browser.find_element_by_class_name('next_in_queue_content').click()
-                browser.find_element(by=By.CLASS_NAME, value='next_in_queue_content').click()
+                try:
+                    game = browser.find_element(by=By.ID, value='appHubAppName').text
+                    print(f'Exploring {game} with link {link}')
+                    # browser.find_element_by_class_name('next_in_queue_content').click()
+                    browser.find_element(by=By.CLASS_NAME, value='next_in_queue_content').click()
+                except NoSuchElementException:
+                    agecheck = browser.find_element(by=By.CLASS_NAME, value='agegate_text_container')
+                    if agecheck:
+                        print(f'Found age check when accessing {link}, skipping.')
+                        browser.find_element(by=By.CLASS_NAME, value='next_in_queue_content').click()
             except:
                 print('Queue is empty, trying to spawn a new one.')
                 # browser.find_element_by_name('refresh_queue_btn').click()
@@ -124,4 +130,5 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                 break
     else:
         print('SteamAutoQueue\'s work has done!')
-        
+    browser.quit()
+    os._exit(0)
