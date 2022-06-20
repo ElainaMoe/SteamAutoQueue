@@ -1,0 +1,10 @@
+{
+    "proxy": "",
+    "steam": {
+        "sessionid": "",
+        "steamRememberLogin": "",
+        "steamMachineAuth": "",
+        "steamLoginSecure": "",
+        "browserid": ""
+    }
+}
