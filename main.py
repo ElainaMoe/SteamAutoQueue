@@ -90,7 +90,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         os._exit(0)
 
     # Browse Steam page
-    browser.get('https://store.steampowered.com/')
+    browser.get('https://store.steampowered.com/?l=english')
     for i in cookies:   # Must behind of get, or the browser doesn't know which website to add
         browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})    # Set cookies to get logging in
     browser.refresh()
