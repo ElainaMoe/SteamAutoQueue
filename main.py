@@ -154,7 +154,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
         browser.get('https://store.steampowered.com/explore/startnew')
     nextQueueCount = 0
-    while nextQueueCount == 2:     # When the spawn button has been clicked twice
+    while nextQueueCount <= 2:     # When the spawn button has been clicked twice
         print(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
         while True:
             try:
@@ -167,7 +167,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                         f'[SteamAutoQueue] Exploring {game} with link {link}')
                     # browser.find_element_by_class_name('next_in_queue_content').click()
                     browser.find_element(
-                        by=By.CLASS_NAME, value='btn_next_in_queue btn_next_in_queue_trigger').click()
+                        by=By.CLASS_NAME, value='next_in_queue_content').click()
                 except NoSuchElementException:
                     agecheck = browser.find_element(
                         by=By.CLASS_NAME, value='agegate_text_container')
@@ -175,7 +175,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                         print(
                             f'[SteamAutoQueue] Found age check when accessing {link}, skipping.')
                         browser.find_element(
-                            by=By.CLASS_NAME, value='btn_next_in_queue btn_next_in_queue_trigger').click()
+                            by=By.CLASS_NAME, value='next_in_queue_content').click()
             except:
                 print('[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
                 # browser.find_element_by_name('refresh_queue_btn').click()
