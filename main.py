@@ -98,8 +98,10 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         if not os.path.exists('./chromedriver'):
             download(
                 'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
+            print('[SteamAutoQueue] Unzipping chromedriver.zip')
             os.system('unzip chromedriver.zip')
             os.system('sudo rm -rf "./chromedriver.zip"')
+            print('[SteamAutoQueue] Giving permission to execute.')
             os.system('sudo chmod +x "chromedriver"')
         option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
@@ -111,9 +113,12 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         if not os.path.exists('./driver/chromedriver.exe'):
             download(
                 'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_win32.zip', 'chromedriver.zip')
+            print('[SteamAutoQueue] Unzipping chromedriver.zip')
             with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
                 chromedriver.extractall(path='./driver')
+            print('[SteamAutoQueue] Deleting chromedriver.zip')
             os.system('del /q /f "chromedriver.zip"')
+            print('[SteamAutoQueue] Done!')
         browser = webdriver.Chrome(
             service=Service('./driver/chromedriver.exe'), options=option)
     else:
@@ -121,10 +126,13 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         os._exit(0)
 
     # Browse Steam page
+    print('[SteamAutoQueue] Trying to access steam store.')
     browser.get('https://store.steampowered.com/')
+    print('[SteamAutoQueue] Successfully access steam store. Adding cookie...')
     for i in cookies:   # Must behind of get, or the browser doesn't know which website to add
         # Set cookies to get logging in
         browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})
+    print('[SteamAutoQueue] Successfully add cookie.')
     browser.refresh()
 
     try:
