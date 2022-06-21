@@ -44,7 +44,7 @@ try:
                 config={'proxy': ''}
 except Exception as e:
     print(f'Cannot read config with exception {e}')
-
+    
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
     total = int(resp.headers.get('content-length', 0))
