@@ -95,20 +95,20 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':     # May not work on linux, will exit abnormally
-        if not os.path.exists('./chromedriver'):
-            download(
-                'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
-            print('[SteamAutoQueue] Unzipping chromedriver.zip')
-            os.system('unzip chromedriver.zip')
-            os.system('sudo rm -rf "./chromedriver.zip"')
-            print('[SteamAutoQueue] Giving permission to execute.')
-            os.system('sudo chmod +x "chromedriver"')
-            print('[SteamAutoQueue] Moving chromedriver to ./chromedriver')
-            os.system('sudo cp chromedriver /usr/bin/')
-            print('[SteamAutoQueue] Installing chrome...')
-            os.system('wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
-            os.system('sudo dpkg -i google-chrome-stable_current_amd64.deb')
-            print('[SteamAutoQueue] Done!')
+        # if not os.path.exists('./chromedriver'):
+        #     download(
+        #         'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
+        #     print('[SteamAutoQueue] Unzipping chromedriver.zip')
+        #     os.system('unzip chromedriver.zip')
+        #     os.system('sudo rm -rf "./chromedriver.zip"')
+        #     print('[SteamAutoQueue] Giving permission to execute.')
+        #     os.system('sudo chmod +x "chromedriver"')
+        #     print('[SteamAutoQueue] Moving chromedriver to ./chromedriver')
+        #     os.system('sudo cp chromedriver /usr/bin/')
+        #     print('[SteamAutoQueue] Installing chrome...')
+        #     os.system('wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
+        #     os.system('sudo dpkg -i google-chrome-stable_current_amd64.deb')
+        #     print('[SteamAutoQueue] Done!')
         option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
