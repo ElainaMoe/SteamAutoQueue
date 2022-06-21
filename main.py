@@ -45,6 +45,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
             sql = redis.Redis(host=host, password=password,
                               port=port, ssl=True)
             cookies = json.loads(sql.get('steamCookie').decode())
+            print('[SteamAutoQueue] Cookie get from Redis')
             config = {'proxy': ''}
         else:
             print('[SteamAutoQueue] Redis URL not set.')
@@ -55,6 +56,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                     if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
                         cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
                                    ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+                        print('[SteamAutoQueue] Cookie get from local file config.json')
                     else:
                         print('You need to configure your cookie first!')
                         os._exit(0)
@@ -70,6 +72,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                                f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
                                'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
                     config = {'proxy': ''}
+                    print('[SteamAutoQueue] Cookie get from environment variable')
     except Exception as e:
         print(f'[SteamAutoQueue] Cannot read config with exception {e}')
         os.exit()
@@ -151,6 +154,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         browser.get('https://store.steampowered.com/explore/startnew')
     nextQueueCount = 0
     if nextQueueCount != 2:     # When the spawn button has been clicked twice
+        print(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
         while True:
             try:
                 # game = browser.find_element_by_id('appHubAppName').text
