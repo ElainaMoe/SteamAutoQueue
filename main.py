@@ -13,7 +13,7 @@ import redis
 # Debug mode, set true to show chrome window, false to hide it
 debug = True
 
-
+    
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
     total = int(resp.headers.get('content-length', 0))
@@ -27,8 +27,6 @@ def download(url: str, fname: str, headers: dict = {}):
         for data in resp.iter_content(chunk_size=1024):
             size = file.write(data)
             bar.update(size)
-
-
 
 if __name__ == '__main__':
     logo = r''' __ _                           _         _            ____                       
