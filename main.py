@@ -95,14 +95,15 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':     # May not work on linux, will exit abnormally
-        # if not os.path.exists('./chromedriver'):
-        #     download(
-        #         'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
-        #     print('[SteamAutoQueue] Unzipping chromedriver.zip')
-        #     os.system('unzip chromedriver.zip')
-        #     os.system('sudo rm -rf "./chromedriver.zip"')
-        #     print('[SteamAutoQueue] Giving permission to execute.')
-        #     os.system('sudo chmod +x "chromedriver"')
+        if not os.path.exists('./chromedriver'):
+            download(
+                'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
+            print('[SteamAutoQueue] Unzipping chromedriver.zip')
+            os.system('unzip chromedriver.zip')
+            os.system('sudo rm -rf "./chromedriver.zip"')
+            print('[SteamAutoQueue] Giving permission to execute.')
+            os.system('sudo chmod +x "chromedriver"')
+            os.system('sudo cp chromedriver /usr/bin/')
         option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
@@ -111,7 +112,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         # browser = webdriver.Chrome(
         #     service=Service('./chromedriver'), options=option)
         browser = webdriver.Chrome(service=Service(
-            '/usr/bin/google-chrome'), options=option)
+            '/usr/bin/chromedriver'), options=option)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
