@@ -8,10 +8,39 @@ from tqdm import tqdm
 import os
 import zipfile
 import json
+import redis
 
 # Debug mode, set true to show chrome window, false to hide it
-debug = False
+debug = True
 
+redisURL = os.environ.get('REDIS_URL')
+redisURL = 'redis://da6b7e1fc4724ea6acb1dab9b0144271@apn1-charmed-haddock-33305.upstash.io:33305'
+password, host, port = redisURL.replace(
+    'redis://', '').replace('@', '|').replace(':', '|').split('|')
+sql = redis.Redis(host=host, password=password, port=port, ssl=True)
+try:
+    cookies = json.loads(sql.get('steamCookie').decode())
+except Exception as e:
+    print(f'Cannot get steamCookie with exception {e}, we are trying to use the local file config.json')
+    if os.path.exists('config.json'):
+        with open('config.json') as file:
+            config = json.load(file)
+            if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
+                cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
+                        ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+            else:
+                print('You need to configure your cookie first!')
+                os._exit(0)
+    else:
+        print('Cannot found local file config.json, we are trying to use environment variable.')
+        if os.environ.get('sessionid') == None or os.environ.get('steamRememberLogin') == None or os.environ.get('steamMachineAuth') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
+            print('No information can be found in your system variable. We will now exit.')
+            os._exit(0)
+        else:
+            cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
+                    f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
+                    'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+            config={'proxy': ''}
 
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
@@ -28,20 +57,6 @@ def download(url: str, fname: str, headers: dict = {}):
             bar.update(size)
 
 
-if os.path.exists('config.json'):
-    with open('config.json') as file:
-        config = json.load(file)
-        if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
-            cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                       ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
-        else:
-            print('You need to configure your cookie first!')
-            os._exit(0)
-else:
-    cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
-               f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
-               'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
-    config={'proxy': ''}
 
 if __name__ == '__main__':
     logo = r''' __ _                           _         _            ____                       
@@ -100,12 +115,12 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})
     browser.refresh()
 
-    try:
-        username = browser.find_element(by=By.CLASS_NAME, value='menuitem supernav username persona_name_text_content').text
-        print(f'You have been logged in as {username}')
-    except Exception as e:
-        print(f'It seems that you are not logged in. Excepted: {e}')
-        os._exit(0)
+    # try:
+    #     username = browser.find_element(by=By.CLASS_NAME, value='menuitem supernav username persona_name_text_content').text
+    #     print(f'You have been logged in as {username}')
+    # except Exception as e:
+    #     print(f'It seems that you are not logged in. Excepted: {e}')
+    #     os._exit(0)
 
     '''
     webdriver.find_element_by_* has been deprecated, use webdriver.find_element(by=By.*, value='') instead
