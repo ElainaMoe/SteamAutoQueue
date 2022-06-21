@@ -182,10 +182,9 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                 # browser.find_element(
                 #     by=By.ID, value='refresh_queue_btn').click()
                 browser.get('https://store.steampowered.com/explore/startnew')
-                if nextQueueCount < 2:
-                    print('[SteamAutoQueue] Spawned. Now we will continue the work.')
-                    nextQueueCount += 1
-                    break
+                print('[SteamAutoQueue] Spawned. Now we will continue the work.')
+                nextQueueCount += 1
+                break
     print('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
     browser.quit()
     os._exit(0)
