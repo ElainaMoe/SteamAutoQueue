@@ -13,37 +13,6 @@ import redis
 # Debug mode, set true to show chrome window, false to hide it
 debug = True
 
-try:
-    redisURL = os.environ.get('REDIS_URL')
-    if redisURL != '':
-        password, host, port = redisURL.replace(
-            'redis://', '').replace('@', '|').replace(':', '|').split('|')
-        sql = redis.Redis(host=host, password=password, port=port, ssl=True)
-        cookies = json.loads(sql.get('steamCookie').decode())
-    else: 
-        print('Redis URL not set.')
-        print(f'we are trying to use the local file config.json')
-        if os.path.exists('config.json'):
-            with open('config.json') as file:
-                config = json.load(file)
-                if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
-                    cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                            ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
-                else:
-                    print('You need to configure your cookie first!')
-                    os._exit(0)
-        else:
-            print('Cannot found local file config.json, we are trying to use environment variable.')
-            if os.environ.get('sessionid') == None or os.environ.get('steamRememberLogin') == None or os.environ.get('steamMachineAuth') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
-                print('No information can be found in your system variable. We will now exit.')
-                os._exit(0)
-            else:
-                cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
-                        f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
-                        'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
-                config={'proxy': ''}
-except Exception as e:
-    print(f'Cannot read config with exception {e}')
 
 def download(url: str, fname: str, headers: dict = {}):
     resp = r.get(url, stream=True, headers=headers)
@@ -69,6 +38,38 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
 \__/\__\___|\__,_|_| |_| |_| \_/ \_/\__,_|\__\___/  \___,_\ \__,_|\___|\__,_|\___|
                                                      -- Made by GamerNoTitle      '''
     print(logo)
+    try:
+        redisURL = os.environ.get('REDIS_URL')
+        if redisURL != None:
+            password, host, port = redisURL.replace(
+                'redis://', '').replace('@', '|').replace(':', '|').split('|')
+            sql = redis.Redis(host=host, password=password, port=port, ssl=True)
+            cookies = json.loads(sql.get('steamCookie').decode())
+            config = {'proxy': ''}
+        else: 
+            print('Redis URL not set.')
+            print(f'we are trying to use the local file config.json')
+            if os.path.exists('config.json'):
+                with open('config.json') as file:
+                    config = json.load(file)
+                    if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
+                        cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
+                                ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+                    else:
+                        print('You need to configure your cookie first!')
+                        os._exit(0)
+            else:
+                print('Cannot found local file config.json, we are trying to use environment variable.')
+                if os.environ.get('sessionid') == None or os.environ.get('steamRememberLogin') == None or os.environ.get('steamMachineAuth') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
+                    print('No information can be found in your system variable. We will now exit.')
+                    os._exit(0)
+                else:
+                    cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
+                            f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
+                            'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+                    config={'proxy': ''}
+    except Exception as e:
+        print(f'Cannot read config with exception {e}')
     # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
     option = webdriver.ChromeOptions()
     option.add_experimental_option(
