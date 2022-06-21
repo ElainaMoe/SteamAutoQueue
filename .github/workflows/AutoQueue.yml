@@ -38,7 +38,6 @@ jobs:
         sudo cp chromedriver /usr/bin/
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb
-
     - name: Run script
       env: 
         sessionid: ${{ secrets.sessionid }}

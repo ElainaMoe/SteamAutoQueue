@@ -28,8 +28,6 @@ def download(url: str, fname: str, headers: dict = {}):
             size = file.write(data)
             bar.update(size)
 
-
-if __name__ == '__main__':
     logo = r''' __ _                           _         _            ____                       
 / _\ |_ ___  __ _ _ __ ___     /_\  _   _| |_ ___     /___ \_   _  ___ _   _  ___ 
 \ \| __/ _ \/ _` | '_ ` _ \   //_\\| | | | __/ _ \   //  / / | | |/ _ \ | | |/ _ \
