@@ -139,15 +139,16 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         print('[SteamAutoQueue] Try to start the queue.')
         # browser.find_element_by_id('discovery_queue_start_link').click()
         browser.find_element(
-            by=By.CLASS_NAME, value='discovery_queue_overlay').click()
+            by=By.ID, value='discovery_queue_start_link').click()
     # When the user has already explore a queue and not spawn another
     except ElementNotInteractableException or NoSuchElementException:
         print(
             '[SteamAutoQueue] Start the queue failed, maybe you have already started a queue.')
         print('[SteamAutoQueue] We will try to spawn a new one.')
         # browser.find_element_by_id('refresh_queue_btn').click()
-        browser.find_element(
-            by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
+        # browser.find_element(
+        #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
+        browser.get('https://store.steampowered.com/explore/startnew')
     nextQueueCount = 0
     if nextQueueCount != 2:     # When the spawn button has been clicked twice
         while True:
