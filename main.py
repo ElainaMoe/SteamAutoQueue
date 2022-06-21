@@ -115,12 +115,12 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})
     browser.refresh()
 
-    # try:
-    #     username = browser.find_element(by=By.CLASS_NAME, value='menuitem supernav username persona_name_text_content').text
-    #     print(f'You have been logged in as {username}')
-    # except Exception as e:
-    #     print(f'It seems that you are not logged in. Excepted: {e}')
-    #     os._exit(0)
+    try:
+        username = browser.find_element(by=By.ID, value='account_pulldown').text
+        print(f'You have been logged in as {username}')
+    except Exception as e:
+        print(f'It seems that you are not logged in. Excepted: {e}')
+        os._exit(0)
 
     '''
     webdriver.find_element_by_* has been deprecated, use webdriver.find_element(by=By.*, value='') instead
