@@ -11,7 +11,7 @@ import json
 import redis
 
 # Debug mode, set true to show chrome window, false to hide it
-debug = True
+debug = False
 
 
 def download(url: str, fname: str, headers: dict = {}):
@@ -111,7 +111,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         # browser = webdriver.Chrome(
         #     service=Service('./chromedriver'), options=option)
         browser = webdriver.Chrome(service=Service(
-            '/usr/bin/google-chrome', options=option))
+            '/usr/bin/google-chrome'), options=option)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
