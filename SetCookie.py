@@ -21,6 +21,6 @@ except FileNotFoundError:
     print('You need to create a config.json file and configure your steam information in it first!')
     sys.exit()
 
-sql.set('steamCookie', str({'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                    ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}))
+sql.set("steamCookie", json.dumps({"sessionid": config["steam"]["sessionid"], "steamRememberLogin": config["steam"]["steamRememberLogin"], f"steamMachineAuth{config['steam']['steamID64']}": config["steam"]
+                    ["steamMachineAuth"], "steamLoginSecure": config["steam"]["steamLoginSecure"], "browserid": config["steam"]["browserid"]}))
 sys.exit()
