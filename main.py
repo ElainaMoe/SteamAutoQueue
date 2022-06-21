@@ -56,7 +56,8 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                     if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
                         cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
                                    ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
-                        print('[SteamAutoQueue] Cookie get from local file config.json')
+                        print(
+                            '[SteamAutoQueue] Cookie get from local file config.json')
                     else:
                         print('You need to configure your cookie first!')
                         os._exit(0)
@@ -153,7 +154,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
         browser.get('https://store.steampowered.com/explore/startnew')
     nextQueueCount = 0
-    if nextQueueCount != 2:     # When the spawn button has been clicked twice
+    while nextQueueCount == 2:     # When the spawn button has been clicked twice
         print(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
         while True:
             try:
@@ -166,7 +167,7 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                         f'[SteamAutoQueue] Exploring {game} with link {link}')
                     # browser.find_element_by_class_name('next_in_queue_content').click()
                     browser.find_element(
-                        by=By.CLASS_NAME, value='next_in_queue_content').click()
+                        by=By.CLASS_NAME, value='btn_next_in_queue btn_next_in_queue_trigger').click()
                 except NoSuchElementException:
                     agecheck = browser.find_element(
                         by=By.CLASS_NAME, value='agegate_text_container')
@@ -174,16 +175,17 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
                         print(
                             f'[SteamAutoQueue] Found age check when accessing {link}, skipping.')
                         browser.find_element(
-                            by=By.CLASS_NAME, value='next_in_queue_content').click()
+                            by=By.CLASS_NAME, value='btn_next_in_queue btn_next_in_queue_trigger').click()
             except:
                 print('[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
                 # browser.find_element_by_name('refresh_queue_btn').click()
-                browser.find_element(
-                    by=By.ID, value='refresh_queue_btn').click()
-                print('[SteamAutoQueue] Spawned. Now we will continue the work.')
-                nextQueueCount += 1
-                break
-    else:
-        print('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
+                # browser.find_element(
+                #     by=By.ID, value='refresh_queue_btn').click()
+                browser.get('https://store.steampowered.com/explore/startnew')
+                if nextQueueCount < 2:
+                    print('[SteamAutoQueue] Spawned. Now we will continue the work.')
+                    nextQueueCount += 1
+                    break
+    print('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
     browser.quit()
     os._exit(0)
