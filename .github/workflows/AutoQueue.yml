@@ -29,6 +29,16 @@ jobs:
     - name: Install requirements #安装轮子
       run: |
         pip install -r requirements.txt
+    - name: Install Chrome
+      run: |
+        wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
+        unzip chromedriver.zip
+        sudo rm -rf "./chromedriver.zip"
+        sudo chmod +x "chromedriver"
+        sudo cp chromedriver /usr/bin/
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+
     - name: Run script
       env: 
         sessionid: ${{ secrets.sessionid }}
@@ -39,11 +49,4 @@ jobs:
         steamID64: ${{ secrets.steamID64 }}
         REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
-        wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
-        unzip chromedriver.zip
-        sudo rm -rf "./chromedriver.zip"
-        sudo chmod +x "chromedriver"
-        sudo cp chromedriver /usr/bin/
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
         python3 main.py
