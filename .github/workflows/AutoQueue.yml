@@ -32,7 +32,7 @@ jobs:
     - name: Run script
       env: 
         sessionid: ${{ secrets.sessionid }}
-        steamRememberLogin: ${{ secrets.steamRememberLogin }} }},
+        steamRememberLogin: ${{ secrets.steamRememberLogin }},
         steamMachineAuth: ${{ secrets.steamMachineAuth }}
         steamLoginSecure: ${{ secrets.steamLoginSecure }}
         browserid: ${{ secrets.browserid }}
