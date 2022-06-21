@@ -107,8 +107,10 @@ _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  _
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
+        print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(
             service=Service('./chromedriver'), options=option)
+        print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
             download(
