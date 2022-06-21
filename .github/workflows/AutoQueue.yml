@@ -37,5 +37,6 @@ jobs:
         steamLoginSecure: ${{ secrets.steamLoginSecure }}
         browserid: ${{ secrets.browserid }}
         steamID64: ${{ secrets.steamID64 }}
+        REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
         python3 main.py
