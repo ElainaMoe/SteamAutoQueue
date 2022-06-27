@@ -27,6 +27,8 @@ def download(url: str, fname: str, headers: dict = {}):     # Working with Windo
             size = file.write(data)
             bar.update(size)
 
+print(__name__)
+
 if __name__ == '__main__':
     logo = r'''
      __ _                           _         _            ____                       
