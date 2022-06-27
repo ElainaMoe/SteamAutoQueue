@@ -108,8 +108,9 @@ if __name__ == '__main__':
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
         # print('[SteamAutoQueue] Installing Edge...')
-        download(
-            'https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip', 'chromedriver.zip')
+        # download(
+        #     'https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip', 'chromedriver.zip')
+        download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
         os.system('unzip chromedriver.zip')
         os.system('sudo rm -rf "./chromedriver.zip"')
@@ -130,7 +131,7 @@ if __name__ == '__main__':
         #     os.system(command)
         # print('[SteamAutoQueue] Edge installed.')
         os.system('sudo apt update && sudo apt upgrade')
-        os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
+        # os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         # os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
