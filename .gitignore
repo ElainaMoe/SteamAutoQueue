@@ -6,3 +6,5 @@ main.spec
 .vscode
 __pycache__
 icon.ico
+*.zip
+*.deb

@@ -34,8 +34,9 @@ jobs:
         wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
         unzip chromedriver.zip
         sudo rm -rf "./chromedriver.zip"
-        sudo chmod +x "chromedriver"
         sudo cp chromedriver /usr/bin/
+        sudo chmod -R 777 /usr/bin/chromedriver
+        sudo apt install fonts-liberation xdg-utils -y
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb
     - name: Run script

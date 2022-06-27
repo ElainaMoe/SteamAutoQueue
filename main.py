@@ -107,7 +107,8 @@ if sys.platform == 'linux':     # May not work on linux, will exit abnormally
     #     os.system('wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
     #     os.system('sudo dpkg -i google-chrome-stable_current_amd64.deb')
     #     print('[SteamAutoQueue] Done!')
-    option.add_argument('blink-settings=imagesEnabled=false')
+    # option.add_argument('blink-settings=imagesEnabled=false')
+    os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
     option.add_argument('--no-sandbox')
     option.add_argument('--disable-gpu')
     option.add_argument('--disable-dev-shm-usage')
