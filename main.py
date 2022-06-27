@@ -109,7 +109,7 @@ if __name__ == '__main__':
     if sys.platform == 'linux':
         # print('[SteamAutoQueue] Installing Edge...')
         download(
-            'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
+            'https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
         os.system('unzip chromedriver.zip')
         os.system('sudo rm -rf "./chromedriver.zip"')
@@ -129,7 +129,7 @@ if __name__ == '__main__':
         # for command in commands.split('\n'):
         #     os.system(command)
         # print('[SteamAutoQueue] Edge installed.')
-        os.system('sudo apt install google-chrome-stable=102.0.5005.61 -y')
+        os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
