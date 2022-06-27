@@ -44,7 +44,7 @@ jobs:
         wget https://msedgedriver.azureedge.net/103.0.1264.37/edgedriver_linux64.zip
         unzip edgedriver_linux64.zip
         sudo cp msedgedriver /usr/bin
-        chmod -R 777/usr/bin/msedgedriver
+        chmod -R 777 /usr/bin/msedgedriver
         wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
         sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb
     # - name: Python selenium testing   # For debugging
