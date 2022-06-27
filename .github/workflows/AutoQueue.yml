@@ -39,6 +39,22 @@ jobs:
         sudo apt install fonts-liberation xdg-utils -y
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb
+    - name: Python selenium testing   # For debugging
+      shell: python
+      run: |
+        from selenium import webdriver
+        from selenium.webdriver.chrome.service import Service
+        option = webdriver.ChromeOptions()
+        os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
+        option.add_argument('--no-sandbox')
+        option.add_argument('--disable-gpu')
+        option.add_argument('--disable-dev-shm-usage')
+        option.add_argument('--headless')
+        print('[SteamAutoQueue] Initalizing instance...')
+        browser = webdriver.Chrome(service=Service(
+            '/usr/bin/chromedriver'), options=option)
+        browser.get('https://store.steampowered.com/')
+        print(browser.title)
     - name: Run script
       env: 
         sessionid: ${{ secrets.sessionid }}
