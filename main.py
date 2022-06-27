@@ -132,7 +132,7 @@ if __name__ == '__main__':
         # print('[SteamAutoQueue] Edge installed.')
         os.system('sudo apt update && sudo apt upgrade')
         # os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
-        os.system('sudo apt install google-chrome-stable -y')
+        # os.system('sudo apt install google-chrome-stable -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         # os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
@@ -224,14 +224,15 @@ if __name__ == '__main__':
                         browser.find_element(
                             by=By.CLASS_NAME, value='next_in_queue_content').click()
             except:
-                print('[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
-                # browser.find_element_by_name('refresh_queue_btn').click()
-                # browser.find_element(
-                #     by=By.ID, value='refresh_queue_btn').click()
-                browser.get('https://store.steampowered.com/explore/startnew')
-                print('[SteamAutoQueue] Spawned. Now we will continue the work.')
-                nextQueueCount += 1
-                break
+                if nextQueueCount != 2:
+                    print('[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
+                    # browser.find_element_by_name('refresh_queue_btn').click()
+                    # browser.find_element(
+                    #     by=By.ID, value='refresh_queue_btn').click()
+                    browser.get('https://store.steampowered.com/explore/startnew')
+                    print('[SteamAutoQueue] Spawned. Now we will continue the work.')
+                    nextQueueCount += 1
+                    break
     print('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
     browser.quit()
     os._exit(0)
