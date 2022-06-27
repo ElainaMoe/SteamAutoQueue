@@ -30,9 +30,6 @@ def download(url: str, fname: str, headers: dict = {}):     # Working with Windo
             size = file.write(data)
             bar.update(size)
 
-
-print(__name__)
-
 if __name__ == '__main__':
     logo = r'''
      __ _                           _         _            ____                       
@@ -103,6 +100,11 @@ if __name__ == '__main__':
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
+        try:
+            os.system('sudo rm chromedriver.zip -f')
+            os.system('sudo rm -f chromedriver_linux64.zip')
+        except:
+            pass
         download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
         os.system('unzip chromedriver.zip')
