@@ -29,16 +29,24 @@ jobs:
     - name: Install requirements #安装轮子
       run: |
         pip install -r requirements.txt
-    - name: Install Chrome
+    # - name: Install Chrome
+    #   run: |
+    #     wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
+    #     unzip chromedriver.zip
+    #     sudo rm -rf "./chromedriver.zip"
+    #     sudo cp chromedriver /usr/bin/
+    #     sudo chmod -R 777 /usr/bin/chromedriver
+    #     sudo apt install fonts-liberation xdg-utils -y
+    #     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    #     sudo dpkg -i google-chrome-stable_current_amd64.deb
+    - name: Install Edge
       run: |
-        wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
-        unzip chromedriver.zip
-        sudo rm -rf "./chromedriver.zip"
-        sudo cp chromedriver /usr/bin/
-        sudo chmod -R 777 /usr/bin/chromedriver
-        sudo apt install fonts-liberation xdg-utils -y
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
+      wget https://msedgedriver.azureedge.net/103.0.1264.37/edgedriver_linux64.zip
+      unzip edgedriver_linux64.zip
+      sudo cp msedgedriver /usr/bin
+      chmod -R 777/usr/bin/msedgedriver
+      wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
+      sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb
     - name: Python selenium testing   # For debugging
       shell: python
       run: |

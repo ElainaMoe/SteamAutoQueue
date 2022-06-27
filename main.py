@@ -8,11 +8,13 @@ from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.edge.service import Service as EdgeService
 import requests as r
 from tqdm import tqdm
 
 # Debug mode, set true to show chrome window, false to hide it
 debug = False
+
 
 def download(url: str, fname: str, headers: dict = {}):     # Working with Windows
     resp = r.get(url, stream=True, headers=headers)
@@ -27,6 +29,7 @@ def download(url: str, fname: str, headers: dict = {}):     # Working with Windo
         for data in resp.iter_content(chunk_size=1024):
             size = file.write(data)
             bar.update(size)
+
 
 print(__name__)
 
@@ -46,7 +49,7 @@ if __name__ == '__main__':
             password, host, port = redisURL.replace(
                 'redis://', '').replace('@', '|').replace(':', '|').split('|')
             sql = redis.Redis(host=host, password=password,
-                                port=port, ssl=True)
+                              port=port, ssl=True)
             cookies = json.loads(sql.get('steamCookie').decode())
             print('[SteamAutoQueue] Cookie get from Redis')
             config = {'proxy': ''}
@@ -59,7 +62,7 @@ if __name__ == '__main__':
                     config = json.load(file)
                     if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
                         cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                                    ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+                                   ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
                         print(
                             '[SteamAutoQueue] Cookie get from local file config.json')
                         debug = False if config['debug'] != True else True
@@ -75,8 +78,8 @@ if __name__ == '__main__':
                     os._exit(0)
                 else:
                     cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
-                                f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
-                                'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+                               f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
+                               'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
                     config = {'proxy': ''}
                     print('[SteamAutoQueue] Cookie get from environment variable')
                     debug = False
@@ -84,7 +87,10 @@ if __name__ == '__main__':
         print(f'[SteamAutoQueue] Cannot read config with exception {e}')
         os.exit()
     # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
-    option = webdriver.ChromeOptions()
+    if sys.platform == 'win32': 
+        option = webdriver.ChromeOptions()
+    elif sys.platform == 'linux':
+        option = webdriver.EdgeOptions()
     option.add_experimental_option(
         "excludeSwitches", ['ignore-certificate-errors', 'ignore-ssl-errors'])
     if debug:
@@ -101,13 +107,17 @@ if __name__ == '__main__':
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
+        os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
         option.add_argument('headless')
+        option.add_argument('allow-elevated-browser')
         print('[SteamAutoQueue] Initalizing instance...')
-        browser = webdriver.Chrome(service=Service(
-            '/usr/bin/chromedriver'), options=option)
+        # browser = webdriver.Chrome(service=Service(
+        #     '/usr/bin/chromedriver'), options=option)
+        browser = webdriver.Edge(service=EdgeService(
+            '/usr/bin/msedgedriver'), options=option, capabilities={}, verbose=False, service_log_path=None, keep_alive=True)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
