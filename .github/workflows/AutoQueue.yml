@@ -56,17 +56,17 @@ jobs:
             '/usr/bin/chromedriver'), options=option)
         browser.get('https://store.steampowered.com/')
         print(browser.title)
-    # - name: Run script
-    #   env: 
-    #     sessionid: ${{ secrets.sessionid }}
-    #     steamRememberLogin: ${{ secrets.steamRememberLogin }}
-    #     steamMachineAuth: ${{ secrets.steamMachineAuth }}
-    #     steamLoginSecure: ${{ secrets.steamLoginSecure }}
-    #     browserid: ${{ secrets.browserid }}
-    #     steamID64: ${{ secrets.steamID64 }}
-    #     REDIS_URL: ${{ secrets.REDIS_URL }}
-    #   run: |
-    #     python3 main.py
+    - name: Run script
+      env: 
+        sessionid: ${{ secrets.sessionid }}
+        steamRememberLogin: ${{ secrets.steamRememberLogin }}
+        steamMachineAuth: ${{ secrets.steamMachineAuth }}
+        steamLoginSecure: ${{ secrets.steamLoginSecure }}
+        browserid: ${{ secrets.browserid }}
+        steamID64: ${{ secrets.steamID64 }}
+        REDIS_URL: ${{ secrets.REDIS_URL }}
+      run: |
+        python3 main.py
     - name: Run Script by using python shell
       env:
         sessionid: ${{ secrets.sessionid }}
@@ -77,6 +77,7 @@ jobs:
         steamID64: ${{ secrets.steamID64 }}
         REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
+        #!/usr/bin/env python
         from selenium import webdriver
         from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
         from selenium.webdriver.common.by import By

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
