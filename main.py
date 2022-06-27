@@ -106,13 +106,23 @@ if __name__ == '__main__':
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
+        print('[SteamAutoQueue] Installing Edge...')
+        commands = '''wget https://msedgedriver.azureedge.net/103.0.1264.37/edgedriver_linux64.zip
+        unzip edgedriver_linux64.zip
+        sudo cp msedgedriver /usr/bin
+        sudo chmod -R 777 /usr/bin/msedgedriver
+        wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
+        sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb'''
+        for command in commands.split('\n'):
+            os.system(command)
+        print('[SteamAutoQueue] Edge installed.')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
+        option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
         option.add_argument('headless')
-        option.add_argument('allow-elevated-browser')
         print('[SteamAutoQueue] Initalizing instance...')
         # browser = webdriver.Chrome(service=Service(
         #     '/usr/bin/chromedriver'), options=option)

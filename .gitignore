@@ -9,3 +9,5 @@ icon.ico
 *.zip
 *.deb
 *driver
+*.deb.*
+*.zip.*
