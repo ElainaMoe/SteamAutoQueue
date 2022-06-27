@@ -28,7 +28,7 @@ jobs:
         python-version: 3.8
     - name: Install requirements #安装轮子
       run: |
-        pip install -r requirements.txt
+        sudo pip install -r requirements.txt
     - name: Install Chrome
       run: |
         wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O chromedriver.zip
@@ -49,4 +49,4 @@ jobs:
         steamID64: ${{ secrets.steamID64 }}
         REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
-        python3 main.py
+        sudo python3 main.py

@@ -10,11 +10,13 @@ import zipfile
 import json
 import redis
 
-# Debug mode, set true to show chrome window, false to hide it (Windows Only)
+# Debug mode, set true to show chrome window, false to hide it
 debug = False
 
+config_mode = -1
 
-def download(url: str, fname: str, headers: dict = {}):
+
+def download(url: str, fname: str, headers: dict = {}):     # Working with Windows
     resp = r.get(url, stream=True, headers=headers)
     total = int(resp.headers.get('content-length', 0))
     with open(fname, 'wb') as file, tqdm(
@@ -29,7 +31,8 @@ def download(url: str, fname: str, headers: dict = {}):
             bar.update(size)
 
 if __name__ == '__main__':
-    logo = r''' __ _                           _         _            ____                       
+    logo = r'''
+     __ _                           _         _            ____                       
     / _\ |_ ___  __ _ _ __ ___     /_\  _   _| |_ ___     /___ \_   _  ___ _   _  ___ 
     \ \| __/ _ \/ _` | '_ ` _ \   //_\\| | | | __/ _ \   //  / / | | |/ _ \ | | |/ _ \
     _\ \ ||  __/ (_| | | | | | | /  _  \ |_| | || (_) | / \_/ /| |_| |  __/ |_| |  __/
@@ -47,6 +50,7 @@ if __name__ == '__main__':
             cookies = json.loads(sql.get('steamCookie').decode())
             print('[SteamAutoQueue] Cookie get from Redis')
             config = {'proxy': ''}
+            debug = False
         else:
             print('[SteamAutoQueue] Redis URL not set.')
             print(f'[SteamAutoQueue] We are trying to use the local file config.json')
@@ -58,6 +62,7 @@ if __name__ == '__main__':
                                     ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
                         print(
                             '[SteamAutoQueue] Cookie get from local file config.json')
+                        debug = False if config['debug'] != True else True
                     else:
                         print('You need to configure your cookie first!')
                         os._exit(0)
@@ -74,6 +79,7 @@ if __name__ == '__main__':
                                 'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
                     config = {'proxy': ''}
                     print('[SteamAutoQueue] Cookie get from environment variable')
+                    debug = False
     except Exception as e:
         print(f'[SteamAutoQueue] Cannot read config with exception {e}')
         os.exit()
