@@ -107,7 +107,7 @@ if __name__ == '__main__':
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
         print('[SteamAutoQueue] Installing Edge...')
-        commands = '''wget https://msedgedriver.azureedge.net/103.0.1264.37/edgedriver_linux64.zip
+        commands = '''wget https://msedgedriver.azureedge.net/102.0.1245.44/edgedriver_linux64.zip
         unzip edgedriver_linux64.zip
         sudo cp msedgedriver /usr/bin
         sudo chmod -R 777 /usr/bin/msedgedriver
