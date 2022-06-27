@@ -101,10 +101,12 @@ if __name__ == '__main__':
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
         try:
-            os.system('sudo rm chromedriver.zip -f')
+            print('[SteamAutoQueue] Removing local files if exist.')
             os.system('sudo rm -f chromedriver_linux64.zip')
+            os.system('sudo rm chromedriver -f')
+            print('[SteamAutoQueue] Removed.')
         except:
-            pass
+            print('[SteamAutoQueue] No local file needs to be removed.')
         download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
         os.system('unzip chromedriver.zip')
