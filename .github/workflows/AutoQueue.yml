@@ -25,7 +25,7 @@ jobs:
     - name: Set up Python #安装python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8
+        python-version: 3.10
     - name: Install requirements #安装轮子
       run: |
         pip install -r requirements.txt
@@ -56,7 +56,7 @@ jobs:
             '/usr/bin/chromedriver'), options=option)
         browser.get('https://store.steampowered.com/')
         print(browser.title)
-    - name: Run script
+    - name: Run script        # This doesn't work well currently. It will have no any display if headless mode is enabled in main.py for chromedriver
       env: 
         sessionid: ${{ secrets.sessionid }}
         steamRememberLogin: ${{ secrets.steamRememberLogin }}
