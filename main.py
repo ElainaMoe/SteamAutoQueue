@@ -130,7 +130,7 @@ if __name__ == '__main__':
         # for command in commands.split('\n'):
         #     os.system(command)
         # print('[SteamAutoQueue] Edge installed.')
-        os.system('sudo apt update && sudo apt upgrade')
+        # os.system('sudo apt update && sudo apt upgrade')
         # os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
         # os.system('sudo apt install google-chrome-stable -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
