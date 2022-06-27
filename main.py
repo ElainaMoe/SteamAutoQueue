@@ -129,7 +129,7 @@ if __name__ == '__main__':
         # for command in commands.split('\n'):
         #     os.system(command)
         # print('[SteamAutoQueue] Edge installed.')
-        os.system('sudo apt install google-chrome-stable -y')
+        os.system('sudo apt install google-chrome-stable=102.0.5005.61 -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
@@ -140,6 +140,7 @@ if __name__ == '__main__':
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             '/usr/bin/chromedriver'), options=option)
+        os.system('/usr/bin/chromedriver')
         # browser = webdriver.Edge(service=EdgeService(
         #     '/usr/bin/msedgedriver'), options=option, capabilities={}, verbose=False, service_log_path=None, keep_alive=True)
         print('[SteamAutoQueue] Instance initalized.')
