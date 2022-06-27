@@ -44,6 +44,7 @@ jobs:
       run: |
         from selenium import webdriver
         from selenium.webdriver.chrome.service import Service
+        import os
         option = webdriver.ChromeOptions()
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         option.add_argument('--no-sandbox')
