@@ -13,9 +13,6 @@ import redis
 # Debug mode, set true to show chrome window, false to hide it
 debug = False
 
-config_mode = -1
-
-
 def download(url: str, fname: str, headers: dict = {}):     # Working with Windows
     resp = r.get(url, stream=True, headers=headers)
     total = int(resp.headers.get('content-length', 0))
