@@ -104,7 +104,7 @@ if __name__ == '__main__':
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
-        option.add_argument('--headless')
+        option.add_argument('headless')
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             '/usr/bin/chromedriver'), options=option)
