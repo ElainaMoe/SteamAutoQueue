@@ -111,8 +111,9 @@ if __name__ == '__main__':
         unzip edgedriver_linux64.zip
         sudo cp msedgedriver /usr/bin
         sudo chmod -R 777 /usr/bin/msedgedriver
-        wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
-        sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb'''
+        sudo apt install microsoft-edge-stable -y
+        # wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
+        # sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb'''
         for command in commands.split('\n'):
             os.system(command)
         print('[SteamAutoQueue] Edge installed.')
