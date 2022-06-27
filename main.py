@@ -129,9 +129,10 @@ if __name__ == '__main__':
         # for command in commands.split('\n'):
         #     os.system(command)
         # print('[SteamAutoQueue] Edge installed.')
+        os.system('sudo apt update && sudo apt upgrade')
         os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
-        os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
+        # os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
