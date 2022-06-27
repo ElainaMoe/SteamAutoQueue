@@ -88,10 +88,6 @@ if __name__ == '__main__':
         os.exit()
     # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
     option = webdriver.ChromeOptions()
-    # if sys.platform == 'win32': 
-    #     option = webdriver.ChromeOptions()
-    # elif sys.platform == 'linux':
-    #     option = webdriver.EdgeOptions()
     option.add_experimental_option(
         "excludeSwitches", ['ignore-certificate-errors', 'ignore-ssl-errors'])
     if debug:
@@ -107,9 +103,6 @@ if __name__ == '__main__':
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
-        # print('[SteamAutoQueue] Installing Edge...')
-        # download(
-        #     'https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip', 'chromedriver.zip')
         download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
         os.system('unzip chromedriver.zip')
@@ -119,22 +112,7 @@ if __name__ == '__main__':
         print('[SteamAutoQueue] Moving chromedriver to ./chromedriver')
         os.system('sudo cp chromedriver /usr/bin/')
         print('[SteamAutoQueue] Installing chrome...')
-        # commands = '''wget https://msedgedriver.azureedge.net/102.0.1245.44/edgedriver_linux64.zip
-        #     unzip edgedriver_linux64.zip
-        #     sudo cp msedgedriver /usr/bin
-        #     sudo chmod -R 777 /usr/bin/msedgedriver
-        #     sudo apt install microsoft-edge-stable -y
-        #     # sudo apt install google-chrome-stable -y
-        #     # wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb
-        #     # sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb'''
-        # for command in commands.split('\n'):
-        #     os.system(command)
-        # print('[SteamAutoQueue] Edge installed.')
-        # os.system('sudo apt update && sudo apt upgrade')
-        # os.system('sudo apt install google-chrome-stable=103.0.5060.53-1 -y')
-        # os.system('sudo apt install google-chrome-stable -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
-        # os.environ['webdriver.edge.driver'] = '/usr/bin/msedgedriver'
         option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
@@ -143,9 +121,6 @@ if __name__ == '__main__':
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             '/usr/bin/chromedriver'), options=option)
-        # os.system('/usr/bin/chromedriver')
-        # browser = webdriver.Edge(service=EdgeService(
-        #     '/usr/bin/msedgedriver'), options=option, capabilities={}, verbose=False, service_log_path=None, keep_alive=True)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
