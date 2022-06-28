@@ -130,11 +130,11 @@ if __name__ == '__main__':
         path = os.popen('pwd').read()
         os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
         print('[SteamAutoQueue] Adding chromedriver\'s arguments')
-        option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
+        # option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
         # option.add_argument('--no-sandbox')
         # option.add_argument('--disable-gpu')
         # option.add_argument('--disable-dev-shm-usage')
-        # option.add_argument('--headless')
+        option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             'chromedriver'), options=option)
