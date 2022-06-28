@@ -116,7 +116,10 @@ if __name__ == '__main__':
         # with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
         #         chromedriver.extractall(path='.')
         print('[SteamAutoQueue] Downloading chromedriver...')
-        download('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61', 'chromedriver')
+        # download('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61', 'chromedriver')
+        with open('./chromedriver', 'wb') as file:
+            res = r.get('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61')
+            file.write(res.content)
         # print('[SteamAutoQueue] Giving permission to execute.')
         # os.system('sudo chmod +x "chromedriver"')
         # print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
@@ -127,11 +130,11 @@ if __name__ == '__main__':
         path = os.popen('pwd').read()
         os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
         print('[SteamAutoQueue] Adding chromedriver\'s arguments')
-        option.add_argument('blink-settings=imagesEnabled=false')
-        option.add_argument('--no-sandbox')
-        option.add_argument('--disable-gpu')
-        option.add_argument('--disable-dev-shm-usage')
-        option.add_argument('--headless')
+        option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
+        # option.add_argument('--no-sandbox')
+        # option.add_argument('--disable-gpu')
+        # option.add_argument('--disable-dev-shm-usage')
+        # option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             'chromedriver'), options=option)
