@@ -131,6 +131,7 @@ if __name__ == '__main__':
         path = os.popen('pwd').read()
         os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
         os.environ['webdriver.edge.driver'] = f'{path}/msedgedriver'
+        os.system('sudo cp msedgedriver /usr/bin')
         print('[SteamAutoQueue] Adding edgedriver\'s arguments')
         option = webdriver.EdgeOptions()
         # option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
