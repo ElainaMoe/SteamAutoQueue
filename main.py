@@ -109,8 +109,10 @@ if __name__ == '__main__':
             print('[SteamAutoQueue] No local file needs to be removed.')
         download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
-        os.system('unzip -o chromedriver.zip')
+        # os.system('unzip -o chromedriver.zip')
         # os.system('sudo rm -f "./chromedriver.zip"')
+        with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
+                chromedriver.extractall(path='.')
         print('[SteamAutoQueue] Giving permission to execute.')
         os.system('sudo chmod -R 777 "chromedriver"')
         print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
