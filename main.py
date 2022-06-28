@@ -120,8 +120,9 @@ if __name__ == '__main__':
         # os.system('sudo cp chromedriver /usr/bin/')
         # print('[SteamAutoQueue] Installing chrome...')
         # os.system('sudo apt install google-chrome-stable -y')
-        os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
-        # option.add_argument('blink-settings=imagesEnabled=false')
+        path = os.popen('pwd').read()
+        os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
+        option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
