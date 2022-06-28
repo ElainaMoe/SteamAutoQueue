@@ -110,7 +110,7 @@ if __name__ == '__main__':
         # print('[SteamAutoQueue] Downloading chromedriver')
         download('https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip', 'chromedriver.zip')
         print('[SteamAutoQueue] Unzipping chromedriver.zip')
-        os.system('unzip -o chromedriver.zip')
+        os.system('unzip chromedriver.zip')
         os.system('sudo rm -f "./chromedriver.zip"')
         # with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
         #         chromedriver.extractall(path='.')
