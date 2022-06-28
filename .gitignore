@@ -8,6 +8,5 @@ __pycache__
 icon.ico
 *.zip
 *.deb
-*driver
 *.deb.*
 *.zip.*
