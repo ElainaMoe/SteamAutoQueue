@@ -10,3 +10,5 @@ icon.ico
 *.deb
 *.deb.*
 *.zip.*
+chromedriver
+msedgedriver
