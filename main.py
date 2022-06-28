@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.edge.service import Service as EdgeService
+# from selenium.webdriver.edge.service import Service as EdgeService
 import requests as r
 from tqdm import tqdm
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
             debug = False
         else:
             print('[SteamAutoQueue] Redis URL not set.')
-            print(f'[SteamAutoQueue] We are trying to use the local file config.json')
+            print('[SteamAutoQueue] We are trying to use the local file config.json')
             if os.path.exists('config.json'):
                 with open('config.json') as file:
                     config = json.load(file)
@@ -125,7 +125,7 @@ if __name__ == '__main__':
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
-        option.add_argument('headless')
+        option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
             '/usr/bin/chromedriver'), options=option)
