@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.edge.service import Service as EdgeService
 import requests as r
 from tqdm import tqdm
 
@@ -115,29 +115,33 @@ if __name__ == '__main__':
         # os.system('sudo rm -f "./chromedriver.zip"')
         # with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
         #         chromedriver.extractall(path='.')
-        print('[SteamAutoQueue] Downloading chromedriver...')
+        # print('[SteamAutoQueue] Downloading chromedriver...')
         # download('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61', 'chromedriver')
-        with open('./chromedriver', 'wb') as file:
-            res = r.get('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61')
-            file.write(res.content)
+        # with open('./chromedriver', 'wb') as file:
+        #     res = r.get('https://raw.githubusercontent.com/Vikutorika/assets/master/files/webdriver/chromedriver102.0.5005.61')
+        #     file.write(res.content)
         # print('[SteamAutoQueue] Giving permission to execute.')
         # os.system('sudo chmod +x "chromedriver"')
         # print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
         # os.system('sudo cp chromedriver /usr/bin/')
         print('[SteamAutoQueue] Installing chrome...')
-        os.system('sudo apt install google-chrome-stable -y')
+        # os.popen('sudo apt install google-chrome-stable -y')
+        os.popen('sudo apt install microsoft-edge-stable -y')
         print('[SteamAutoQueue] Setting chromedriver\'s path...')
         path = os.popen('pwd').read()
         os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
-        print('[SteamAutoQueue] Adding chromedriver\'s arguments')
+        os.environ['webdriver.edge.driver'] = f'{path}/msedgedriver'
+        print('[SteamAutoQueue] Adding edgedriver\'s arguments')
+        option = webdriver.EdgeOptions()
         # option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
-        # option.add_argument('--no-sandbox')
-        # option.add_argument('--disable-gpu')
-        # option.add_argument('--disable-dev-shm-usage')
+        option.add_argument('--no-sandbox')
+        option.add_argument('--disable-gpu')
+        option.add_argument('--disable-dev-shm-usage')
         option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
-        browser = webdriver.Chrome(service=Service(
-            'chromedriver'), options=option)
+        # browser = webdriver.Chrome(service=Service(
+        #     'chromedriver'), options=option)
+        browser = webdriver.Edge(service=EdgeService('msedgedriver'), options=option)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
