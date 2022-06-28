@@ -126,7 +126,7 @@ if __name__ == '__main__':
         # os.system('sudo cp chromedriver /usr/bin/')
         print('[SteamAutoQueue] Installing chrome...')
         # os.popen('sudo apt install google-chrome-stable -y')
-        os.popen('sudo apt install microsoft-edge-stable -y')
+        os.popen('sudo apt update && sudo apt install microsoft-edge-stable -y')
         print('[SteamAutoQueue] Setting chromedriver\'s path...')
         path = os.popen('pwd').read()
         os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
