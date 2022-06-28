@@ -119,6 +119,7 @@ if __name__ == '__main__':
         print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
         os.system('sudo cp chromedriver /usr/bin/')
         # print('[SteamAutoQueue] Installing chrome...')
+        os.system('sudo apt install google-chrome-stable -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         # option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
