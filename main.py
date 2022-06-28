@@ -30,6 +30,7 @@ def download(url: str, fname: str, headers: dict = {}):     # Working with Windo
             size = file.write(data)
             bar.update(size)
 
+
 if __name__ == '__main__':
     logo = r'''
      __ _                           _         _            ____                       
@@ -213,11 +214,13 @@ if __name__ == '__main__':
                             by=By.CLASS_NAME, value='next_in_queue_content').click()
             except:
                 if nextQueueCount != 2:
-                    print('[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
+                    print(
+                        '[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
                     # browser.find_element_by_name('refresh_queue_btn').click()
                     # browser.find_element(
                     #     by=By.ID, value='refresh_queue_btn').click()
-                    browser.get('https://store.steampowered.com/explore/startnew')
+                    browser.get(
+                        'https://store.steampowered.com/explore/startnew')
                     print('[SteamAutoQueue] Spawned. Now we will continue the work.')
                     nextQueueCount += 1
                     break
