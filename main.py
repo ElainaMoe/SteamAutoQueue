@@ -116,10 +116,10 @@ if __name__ == '__main__':
         #         chromedriver.extractall(path='.')
         print('[SteamAutoQueue] Giving permission to execute.')
         os.system('sudo chmod -R 777 "chromedriver"')
-        print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
-        os.system('sudo cp chromedriver /usr/bin/')
+        # print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
+        # os.system('sudo cp chromedriver /usr/bin/')
         # print('[SteamAutoQueue] Installing chrome...')
-        os.system('sudo apt install google-chrome-stable -y')
+        # os.system('sudo apt install google-chrome-stable -y')
         os.environ["webdriver.chrome.driver"] = '/usr/bin/chromedriver'
         # option.add_argument('blink-settings=imagesEnabled=false')
         option.add_argument('--no-sandbox')
@@ -128,7 +128,7 @@ if __name__ == '__main__':
         option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(service=Service(
-            '/usr/bin/chromedriver'), options=option)
+            'chromedriver'), options=option)
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
