@@ -11,3 +11,5 @@ icon.ico
 *.deb.*
 *.zip.*
 chromedriver
+logs
+*.log

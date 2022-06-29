@@ -124,25 +124,33 @@ if __name__ == '__main__':
         # os.system('sudo chmod +x "chromedriver"')
         # print('[SteamAutoQueue] Moving chromedriver to /usr/bin')
         # os.system('sudo cp chromedriver /usr/bin/')
-        print('[SteamAutoQueue] Installing chrome...')
+        # print('[SteamAutoQueue] Installing chrome...')
         # os.popen('sudo apt install google-chrome-stable -y')
-        os.popen('sudo apt update && sudo apt install microsoft-edge-stable -y')
-        print('[SteamAutoQueue] Setting chromedriver\'s path...')
-        path = os.popen('pwd').read()
-        os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
-        os.environ['webdriver.edge.driver'] = f'{path}/msedgedriver'
-        os.system('sudo cp msedgedriver /usr/bin')
-        print('[SteamAutoQueue] Adding edgedriver\'s arguments')
-        option = webdriver.EdgeOptions()
+        # os.popen('sudo apt update && sudo apt install microsoft-edge-stable -y')
+        # os.system('wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_103.0.1264.37-1_amd64.deb && sudo dpkg -i microsoft-edge-stable_103.0.1264.37-1_amd64.deb && sudo rm -rf microsoft-edge-stable_103.0.1264.37-1_amd64.deb')
+        # print('[SteamAutoQueue] Setting chromedriver\'s path...')
+        # path = os.popen('pwd').read()
+        # os.environ["webdriver.chrome.driver"] = f'{path}/chromedriver'
+        # os.environ['webdriver.edge.driver'] = f'{path}/msedgedriver'
+        # os.system('sudo cp msedgedriver /usr/bin')
+        # print('[SteamAutoQueue] Adding edgedriver\'s arguments')
+        option = webdriver.ChromeOptions()
         # option.add_argument('blink-settings=imagesEnabled=false --no-sandbox --disable-gpu --disable-dev-shm-usage --headless')
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
         option.add_argument('--headless')
         print('[SteamAutoQueue] Initalizing instance...')
-        # browser = webdriver.Chrome(service=Service(
-        #     'chromedriver'), options=option)
-        browser = webdriver.Edge(service=EdgeService('msedgedriver'), options=option)
+        browser = webdriver.Chrome(executable_path='chromedriver', options=option)
+        # EdgeOptions = {
+        #     "browserName": "MicrosoftEdge",
+        #     "version": "103.0.1264.37",
+        #     "platform": "LINUX",
+        #     "ms:edgeOptions": {
+        #         "extensions": [], "args": ["--start-maximized", "headless", "--disable-gpu-program-cache", "--disable-gpu"]
+        #     }
+        # }
+        # browser = webdriver.Edge('msedgedriver', EdgeOptions, keep_alive=True, log_path='debug.log')
         print('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':
         if not os.path.exists('./driver/chromedriver.exe'):
