@@ -206,7 +206,9 @@ if __name__ == '__main__':
         #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
         browser.get('https://store.steampowered.com/explore/startnew')
     nextQueueCount = 0
+    Done = False
     while nextQueueCount <= 2:     # When the spawn button has been clicked twice
+        if Done: break
         print(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
         while True:
             try:
@@ -239,7 +241,9 @@ if __name__ == '__main__':
                         'https://store.steampowered.com/explore/startnew')
                     print('[SteamAutoQueue] Spawned. Now we will continue the work.')
                     nextQueueCount += 1
-                    break
+                else: Done = True
+                break
+
     print('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
     browser.quit()
     os._exit(0)
