@@ -44,6 +44,3 @@ jobs:
         REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
         python3 main.py
-    - name: Show Log
-      run: |
-        cat SteamAutoQueue.log
