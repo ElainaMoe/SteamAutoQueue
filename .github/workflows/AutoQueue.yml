@@ -15,7 +15,7 @@ on:
     types: [started]
    
 jobs:
-  build:
+  Run:
     runs-on: ubuntu-latest
     # runs-on: windows-2019
     if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
@@ -44,3 +44,6 @@ jobs:
         REDIS_URL: ${{ secrets.REDIS_URL }}
       run: |
         python3 main.py
+    - name: Show Log
+      run: |
+        cat SteamAutoQueue.log
