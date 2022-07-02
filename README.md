@@ -4,7 +4,7 @@ A script that helps you to explore Steam queue for three times every day. (Espec
 
 ## Getting Started
 
-You need to follow the guide on [this page](https://bili33.top/posts/SteamAutoQueue-Manual) to configure it
+You need to follow the guide on [this page](https://bili33.top/posts/SteamAutoQueue-Manual/#English) to configure it
 
 ## 快速开始
 
