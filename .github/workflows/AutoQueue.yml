@@ -26,9 +26,13 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.9
-    - name: Install requirements #安装轮子
+    - name: Install requirements & webdriver
       run: |
         pip install -r requirements.txt
+        wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip
+        unzip chromedriver_linux64
+        sudo cp chromedriver /usr/bin
+        sudo chmod +x /usr/bin/chromedriver
     - name: Run script        # This doesn't work well currently. It will have no any display if headless mode is enabled in main.py for chromedriver
       env: 
         sessionid: ${{ secrets.sessionid }}
