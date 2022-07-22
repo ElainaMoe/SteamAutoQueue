@@ -6,9 +6,13 @@ A script that helps you to explore Steam queue for three times every day. (Espec
 
 You need to follow the guide on [this page](https://bili33.top/posts/SteamAutoQueue-Manual/#English) to configure it
 
+Fallback guide: https://blog.ninym.top/posts/SteamAutoQueue-Manual/#English
+
 ## 快速开始
 
 请访问[SteamAutoQueue —— Steam自动探索3次队列，帮你拿到促销期间的卡牌！ | GamerNoTitle (bili33.top)](https://bili33.top/posts/SteamAutoQueue-Manual/)进行配置
+
+备用地址：https://blog.ninym.top/posts/SteamAutoQueue-Manual/
 
 ## Sponsor
 
