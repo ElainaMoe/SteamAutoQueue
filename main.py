@@ -62,9 +62,9 @@ if __name__ == '__main__':
             if os.path.exists('config.json'):
                 with open('config.json') as file:
                     config = json.load(file)
-                    if config['steam'] != {'sessionid': '', 'steamRememberLogin': '', f'steamMachineAuth{config["steam"]["steamID64"]}': '', 'steamLoginSecure': '', 'browserid': ''}:
-                        cookies = {'sessionid': config['steam']['sessionid'], 'steamRememberLogin': config['steam']['steamRememberLogin'], f'steamMachineAuth{config["steam"]["steamID64"]}': config['steam']
-                                   ['steamMachineAuth'], 'steamLoginSecure': config['steam']['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+                    if config['steam'] != {'sessionid': '', 'steamLoginSecure': '', 'browserid': ''}:
+                        cookies = {'sessionid': config['steam']['sessionid'], 'steamLoginSecure': config['steam']
+                                   ['steamLoginSecure'], 'browserid': config['steam']['browserid']}
                         log.info(
                             '[SteamAutoQueue] Cookie get from local file config.json')
                         debug = False if config['debug'] != True else True
@@ -74,13 +74,12 @@ if __name__ == '__main__':
             else:
                 log.warning(
                     '[SteamAutoQueue] Cannot found local file config.json, we are trying to use environment variable.')
-                if os.environ.get('sessionid') == None or os.environ.get('steamRememberLogin') == None or os.environ.get('steamMachineAuth') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
+                if os.environ.get('sessionid') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
                     log.error(
                         '[SteamAutoQueue] No information can be found in your system variable. We will now exit.')
                     os._exit(0)
                 else:
-                    cookies = {'sessionid': os.environ.get('sessionid'), 'steamRememberLogin': os.environ.get('steamRememberLogin'),
-                               f'steamMachineAuth{os.environ.get("steamID64")}': os.environ.get('steamMachineAuth'),
+                    cookies = {'sessionid': os.environ.get('sessionid'),
                                'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
                     config = {'proxy': ''}
                     log.info(
@@ -106,14 +105,22 @@ if __name__ == '__main__':
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
     if sys.platform == 'linux':
+        download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchrome-linux.zip?generation=1647003737718343&alt=media', 'chrome.zip')
+        os.system('unzip chrome.zip')
+        os.system('sudo ln -s ./chrome-linux/chrome /usr/bin/chrome')
+        download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchromedriver_linux64.zip?generation=1647003743428558&alt=media', 'chromedriver.zip')
+        os.system('unzip chromedriver.zip')
+        os.system(
+            'sudo cp ./chromedriver_linux64/chromedriver /usr/bin && sudo chmod +x /usr/bin/chromedriver')
         option = webdriver.ChromeOptions()
         option.add_argument('--no-sandbox')
         option.add_argument('--disable-gpu')
         option.add_argument('--disable-dev-shm-usage')
         option.add_argument('--headless')
+        option.binary_location = './chrome-linux/chrome'
         log.info('[SteamAutoQueue] Initalizing instance...')
         browser = webdriver.Chrome(
-            executable_path='chromedriver', options=option)
+            executable_path='/usr/bin/chromedriver', options=option)
         browser.set_page_load_timeout(60)
         log.info('[SteamAutoQueue] Instance initalized.')
     elif sys.platform == 'win32':

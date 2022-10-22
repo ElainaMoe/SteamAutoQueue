@@ -13,3 +13,4 @@ icon.ico
 #chromedriver
 logs
 *.log
+chrome*/
