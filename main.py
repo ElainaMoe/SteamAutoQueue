@@ -91,40 +91,23 @@ if __name__ == '__main__':
                 f'headless --ignore-certificate-errors --proxy-server={config["proxy"]}')
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
-    if sys.platform == 'linux':
-        download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchrome-linux.zip?generation=1647003737718343&alt=media', 'chrome.zip')
-        os.system('unzip chrome.zip')
-        os.system('sudo ln -s ./chrome-linux/chrome /usr/bin/chrome')
-        download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchromedriver_linux64.zip?generation=1647003743428558&alt=media', 'chromedriver.zip')
-        os.system('unzip chromedriver.zip')
-        os.system(
-            'sudo cp ./chromedriver_linux64/chromedriver /usr/bin && sudo chmod +x /usr/bin/chromedriver')
-        option = webdriver.ChromeOptions()
-        option.add_argument('--no-sandbox')
-        option.add_argument('--disable-gpu')
-        option.add_argument('--disable-dev-shm-usage')
-        option.add_argument('--headless')
-        option.binary_location = './chrome-linux/chrome'
-        log.info('[SteamAutoQueue] Initalizing instance...')
-        browser = webdriver.Chrome(
-            executable_path='/usr/bin/chromedriver', options=option)
-        browser.set_page_load_timeout(60)
-        log.info('[SteamAutoQueue] Instance initalized.')
-    elif sys.platform == 'win32':
-        if not os.path.exists('./driver/chromedriver.exe'):
-            download(
-                'https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_win32.zip', 'chromedriver.zip')
-            log.info('[SteamAutoQueue] Unzipping chromedriver.zip')
-            with zipfile.ZipFile('./chromedriver.zip', 'r') as chromedriver:
-                chromedriver.extractall(path='./driver')
-            log.info('[SteamAutoQueue] Deleting chromedriver.zip')
-            os.system('del /q /f "chromedriver.zip"')
-            log.info('[SteamAutoQueue] Done!')
-        browser = webdriver.Chrome(
-            service=Service('./driver/chromedriver.exe'), options=option)
-    else:
-        log.error(f'[SteamAutoQueue] Unsupported platform {sys.platform}')
-        os._exit(0)
+    download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchrome-linux.zip?generation=1647003737718343&alt=media', 'chrome.zip')
+    os.system('unzip chrome.zip')
+    download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchromedriver_linux64.zip?generation=1647003743428558&alt=media', 'chromedriver.zip')
+    os.system('unzip chromedriver.zip')
+    os.system(
+        'sudo cp ./chromedriver_linux64/chromedriver /usr/bin && sudo chmod +x /usr/bin/chromedriver')
+    option = webdriver.ChromeOptions()
+    option.add_argument('--no-sandbox')
+    option.add_argument('--disable-gpu')
+    option.add_argument('--disable-dev-shm-usage')
+    option.add_argument('--headless')
+    option.binary_location = './chrome-linux/chrome'
+    log.info('[SteamAutoQueue] Initalizing instance...')
+    browser = webdriver.Chrome(
+        executable_path='/usr/bin/chromedriver', options=option)
+    browser.set_page_load_timeout(60)
+    log.info('[SteamAutoQueue] Instance initalized.')
 
     # Browse Steam page
     log.info('[SteamAutoQueue] Trying to access steam store.')
@@ -137,9 +120,11 @@ if __name__ == '__main__':
     browser.refresh()
 
     try:
+        browser.get('https://store.steampowered.com/account/')
         username = browser.find_element(
-            by=By.ID, value='account_pulldown').text
+            by=By.CLASS_NAME, value='youraccount_steamid').text
         log.info(f'[SteamAutoQueue] You have been logged in as {username}')
+        browser.get('https://store.steampowered.com')
     except Exception as e:
         log.error(
             f'[SteamAutoQueue] It seems that you are not logged in. Excepted: {e}')
