@@ -29,8 +29,6 @@ jobs:
     - name: Install requirements & webdriver
       run: |
         pip install -r requirements.txt
-        sudo cp chromedriver /usr/bin
-        sudo chmod +x /usr/bin/chromedriver
     - name: Run script
       env: 
         sessionid: ${{ secrets.sessionid }}
