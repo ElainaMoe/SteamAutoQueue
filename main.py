@@ -3,7 +3,6 @@ import os
 import sys
 import zipfile
 import json
-import redis
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -45,18 +44,6 @@ if __name__ == '__main__':
                                                             -- Made by GamerNoTitle'''
     log.info(logo)
     try:
-        redisURL = os.environ.get('REDIS_URL')
-        if redisURL != None:
-            password, host, port = redisURL.replace(
-                'redis://', '').replace('@', '|').replace(':', '|').split('|')
-            sql = redis.Redis(host=host, password=password,
-                              port=port, ssl=True)
-            cookies = json.loads(sql.get('steamCookie').decode())
-            log.info('[SteamAutoQueue] Cookie get from Redis')
-            config = {'proxy': ''}
-            debug = False
-        else:
-            log.warning('[SteamAutoQueue] Redis URL not set.')
             log.info(
                 '[SteamAutoQueue] We are trying to use the local file config.json')
             if os.path.exists('config.json'):
