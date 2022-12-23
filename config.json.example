@@ -1,10 +1,5 @@
 {
     "proxy": "",
     "debug": false,
-    "steam": {
-        "sessionid": "",
-        "steamLoginSecure": "",
-        "browserid": "",
-        "steamID64": ""
-    }
+    "cookie": ""
 }

@@ -15,6 +15,8 @@ from tqdm import tqdm
 # Debug mode, set true to show chrome window, false to hide it
 debug = False
 
+def cookie_to_dic(cookie):
+    return {item.split('=')[0]: item.split('=')[1] for item in cookie.split('; ')}
 
 def download(url: str, fname: str, headers: dict = {}):     # Working with Windows
     resp = r.get(url, stream=True, headers=headers)
@@ -49,9 +51,8 @@ if __name__ == '__main__':
             if os.path.exists('config.json'):
                 with open('config.json') as file:
                     config = json.load(file)
-                    if config['steam'] != {'sessionid': '', 'steamLoginSecure': '', 'browserid': ''}:
-                        cookies = {'sessionid': config['steam']['sessionid'], 'steamLoginSecure': config['steam']
-                                   ['steamLoginSecure'], 'browserid': config['steam']['browserid']}
+                    cookie = config['cookie']
+                    if cookie != '':
                         log.info(
                             '[SteamAutoQueue] Cookie get from local file config.json')
                         debug = False if config['debug'] != True else True
@@ -61,13 +62,12 @@ if __name__ == '__main__':
             else:
                 log.warning(
                     '[SteamAutoQueue] Cannot found local file config.json, we are trying to use environment variable.')
-                if os.environ.get('sessionid') == None or os.environ.get('steamLoginSecure') == None or os.environ.get('browserid') == None:
+                if os.environ.get('cookie') == None:
                     log.error(
                         '[SteamAutoQueue] No information can be found in your system variable. We will now exit.')
                     os._exit(0)
                 else:
-                    cookies = {'sessionid': os.environ.get('sessionid'),
-                               'steamLoginSecure': os.environ.get('steamLoginSecure'), 'browserid': os.environ.get('browserid')}
+                    cookie = {'cookie': os.environ.get('cookie')}
                     config = {'proxy': ''}
                     log.info(
                         '[SteamAutoQueue] Cookie get from environment variable')
@@ -91,6 +91,7 @@ if __name__ == '__main__':
                 f'headless --ignore-certificate-errors --proxy-server={config["proxy"]}')
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
+    cookies = cookie_to_dic(cookie)
     download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchrome-linux.zip?generation=1647003737718343&alt=media', 'chrome.zip')
     os.system('unzip chrome.zip')
     download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchromedriver_linux64.zip?generation=1647003743428558&alt=media', 'chromedriver.zip')
