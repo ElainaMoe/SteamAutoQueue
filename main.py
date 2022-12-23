@@ -24,7 +24,10 @@ sentry_sdk.init(
 debug = False
 
 def cookie_to_dic(cookie):
-    return {item.split('=')[0]: item.split('=')[1] for item in cookie.split('; ')}
+    try:
+        return {item.split('=')[0]: item.split('=')[1] for item in cookie.split('; ')}
+    except AttributeError:
+        return cookie
 
 def download(url: str, fname: str, headers: dict = {}):     # Working with Windows
     resp = r.get(url, stream=True, headers=headers)
