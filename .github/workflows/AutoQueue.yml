@@ -31,12 +31,6 @@ jobs:
         pip install -r requirements.txt
     - name: Run script
       env: 
-        sessionid: ${{ secrets.sessionid }}
-        steamRememberLogin: ${{ secrets.steamRememberLogin }}
-        steamMachineAuth: ${{ secrets.steamMachineAuth }}
-        steamLoginSecure: ${{ secrets.steamLoginSecure }}
-        browserid: ${{ secrets.browserid }}
-        steamID64: ${{ secrets.steamID64 }}
-        REDIS_URL: ${{ secrets.REDIS_URL }}
+        cookie: ${{ secrets.cookie }}
       run: |
         python3 main.py
