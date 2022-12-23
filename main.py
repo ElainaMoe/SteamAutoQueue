@@ -78,7 +78,7 @@ if __name__ == '__main__':
                         '[SteamAutoQueue] No information can be found in your system variable. We will now exit.')
                     os._exit(0)
                 else:
-                    cookie = {'cookie': os.environ.get('cookie')}
+                    cookie = os.environ.get('cookie')
                     config = {'proxy': ''}
                     log.info(
                         '[SteamAutoQueue] Cookie get from environment variable')
