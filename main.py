@@ -11,7 +11,15 @@ from selenium.webdriver.edge.service import Service as EdgeService
 from utils.Logger import logger
 import requests as r
 from tqdm import tqdm
+import sentry_sdk
+sentry_sdk.init(
+    dsn="https://da65f217108d4d3c97c567911d5ad5e2@o361988.ingest.sentry.io/4504375617191936",
 
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
 # Debug mode, set true to show chrome window, false to hide it
 debug = False
 

@@ -3,3 +3,4 @@ requests
 tqdm
 redis
 msedge-selenium-tools
+sentry-sdk
