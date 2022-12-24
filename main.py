@@ -62,8 +62,8 @@ if __name__ == '__main__':
             if os.path.exists('config.json'):
                 with open('config.json') as file:
                     config = json.load(file)
-                    cookie = config['cookie']
-                    if cookie != '':
+                    cookies = config['cookie']
+                    if cookies != '':
                         log.info(
                             '[SteamAutoQueue] Cookie get from local file config.json')
                         debug = False if config['debug'] != True else True
@@ -78,14 +78,14 @@ if __name__ == '__main__':
                         '[SteamAutoQueue] No information can be found in your system variable. We will now exit.')
                     os._exit(0)
                 else:
-                    cookie = os.environ.get('cookie')
+                    cookies = os.environ.get('cookie')
                     config = {'proxy': ''}
                     log.info(
                         '[SteamAutoQueue] Cookie get from environment variable')
                     debug = False
     except Exception as e:
         log.error(f'[SteamAutoQueue] Cannot read config with exception {e}')
-        os.exit()
+        os._exit()
     # -ignore-ssl-errors for ignore SSL Errors, or the console will be filled with them
     option = webdriver.ChromeOptions()
     option.add_experimental_option(
@@ -102,7 +102,6 @@ if __name__ == '__main__':
                 f'headless --ignore-certificate-errors --proxy-server={config["proxy"]}')
         else:
             option.add_argument(f'headless --ignore-certificate-errors')
-    cookies = cookie_to_dic(cookie)
     download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchrome-linux.zip?generation=1647003737718343&alt=media', 'chrome.zip')
     os.system('unzip chrome.zip')
     download('https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F980183%2Fchromedriver_linux64.zip?generation=1647003743428558&alt=media', 'chromedriver.zip')
@@ -120,90 +119,92 @@ if __name__ == '__main__':
         executable_path='/usr/bin/chromedriver', options=option)
     browser.set_page_load_timeout(60)
     log.info('[SteamAutoQueue] Instance initalized.')
+    for cookie in cookies.split('#'):
+        cookie = cookie_to_dic(cookie)
 
-    # Browse Steam page
-    log.info('[SteamAutoQueue] Trying to access steam store.')
-    browser.get('https://store.steampowered.com/')
-    log.info('[SteamAutoQueue] Successfully access steam store. Adding cookie...')
-    for i in cookies:   # Must behind of get, or the browser doesn't know which website to add
-        # Set cookies to get logging in
-        browser.add_cookie(cookie_dict={'name': i, 'value': cookies[i]})
-    log.info('[SteamAutoQueue] Successfully add cookie.')
-    browser.refresh()
+        # Browse Steam page
+        log.info('[SteamAutoQueue] Trying to access steam store.')
+        browser.get('https://store.steampowered.com/')
+        log.info('[SteamAutoQueue] Successfully access steam store. Adding cookie...')
+        for i in cookie:   # Must behind of get, or the browser doesn't know which website to add
+            # Set cookies to get logging in
+            browser.add_cookie(cookie_dict={'name': i, 'value': cookie[i]})
+        log.info('[SteamAutoQueue] Successfully add cookie.')
+        browser.refresh()
 
-    try:
-        browser.get('https://store.steampowered.com/account/')
-        username = browser.find_element(
-            by=By.CLASS_NAME, value='youraccount_steamid').text
-        log.info(f'[SteamAutoQueue] You have been logged in as {username}')
-        browser.get('https://store.steampowered.com')
-    except Exception as e:
-        log.error(
-            f'[SteamAutoQueue] It seems that you are not logged in. Excepted: {e}')
-        os._exit(0)
+        try:
+            browser.get('https://store.steampowered.com/account/')
+            username = browser.find_element(
+                by=By.CLASS_NAME, value='youraccount_steamid').text
+            log.info(f'[SteamAutoQueue] You have been logged in as {username}')
+            browser.get('https://store.steampowered.com')
+        except Exception as e:
+            log.error(
+                f'[SteamAutoQueue] It seems that you are not logged in. Excepted: {e}')
+            continue
 
-    '''
-    webdriver.find_element_by_* has been deprecated, use webdriver.find_element(by=By.*, value='') instead
-    '''
+        '''
+        webdriver.find_element_by_* has been deprecated, use webdriver.find_element(by=By.*, value='') instead
+        '''
 
-    try:
-        log.info('[SteamAutoQueue] Try to start the queue.')
-        # browser.find_element_by_id('discovery_queue_start_link').click()
-        browser.find_element(
-            by=By.ID, value='discovery_queue_start_link').click()
-    # When the user has already explore a queue and not spawn another
-    except ElementNotInteractableException or NoSuchElementException:
-        log.info(
-            '[SteamAutoQueue] Start the queue failed, maybe you have already started a queue.')
-        log.info('[SteamAutoQueue] We will try to spawn a new one.')
-        # browser.find_element_by_id('refresh_queue_btn').click()
-        # browser.find_element(
-        #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
-        browser.get('https://store.steampowered.com/explore/startnew')
-    nextQueueCount = 0
-    Done = False
-    try:        # For Action to show log successfully
-        while nextQueueCount <= 2:     # When the spawn button has been clicked twice
-            if Done:
-                break
-            log.info(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
-            while True:
-                try:
-                    # game = browser.find_element_by_id('appHubAppName').text
-                    link = browser.current_url
+        try:
+            log.info('[SteamAutoQueue] Try to start the queue.')
+            # browser.find_element_by_id('discovery_queue_start_link').click()
+            browser.find_element(
+                by=By.ID, value='discovery_queue_start_link').click()
+        # When the user has already explore a queue and not spawn another
+        except ElementNotInteractableException or NoSuchElementException:
+            log.info(
+                '[SteamAutoQueue] Start the queue failed, maybe you have already started a queue.')
+            log.info('[SteamAutoQueue] We will try to spawn a new one.')
+            # browser.find_element_by_id('refresh_queue_btn').click()
+            # browser.find_element(
+            #     by=By.CLASS_NAME, value='discover_queue_empty_refresh_btn').click()
+            browser.get('https://store.steampowered.com/explore/startnew')
+        nextQueueCount = 0
+        Done = False
+        try:        # For Action to show log successfully
+            while nextQueueCount <= 2:     # When the spawn button has been clicked twice
+                if Done:
+                    break
+                log.info(f'[SteamAutoQueue] Starting Queue No.{nextQueueCount+1}')
+                while True:
                     try:
-                        game = browser.find_element(
-                            by=By.ID, value='appHubAppName').text
-                        log.info(
-                            f'[SteamAutoQueue] Exploring {game} with link {link}')
-                        # browser.find_element_by_class_name('next_in_queue_content').click()
-                        browser.find_element(
-                            by=By.CLASS_NAME, value='next_in_queue_content').click()
-                    except NoSuchElementException:
-                        agecheck = browser.find_element(
-                            by=By.CLASS_NAME, value='agegate_text_container')
-                        if agecheck:
+                        # game = browser.find_element_by_id('appHubAppName').text
+                        link = browser.current_url
+                        try:
+                            game = browser.find_element(
+                                by=By.ID, value='appHubAppName').text
                             log.info(
-                                f'[SteamAutoQueue] Found age check when accessing {link}, skipping.')
+                                f'[SteamAutoQueue] Exploring {game} with link {link}')
+                            # browser.find_element_by_class_name('next_in_queue_content').click()
                             browser.find_element(
                                 by=By.CLASS_NAME, value='next_in_queue_content').click()
-                except:
-                    if nextQueueCount != 2:
-                        log.info(
-                            '[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
-                        # browser.find_element_by_name('refresh_queue_btn').click()
-                        # browser.find_element(
-                        #     by=By.ID, value='refresh_queue_btn').click()
-                        browser.get(
-                            'https://store.steampowered.com/explore/startnew')
-                        log.info(
-                            '[SteamAutoQueue] Spawned. Now we will continue the work.')
-                        nextQueueCount += 1
-                    else:
-                        Done = True
-                    break
-    except Exception as e:
-        log.error(e)
+                        except NoSuchElementException:
+                            agecheck = browser.find_element(
+                                by=By.CLASS_NAME, value='agegate_text_container')
+                            if agecheck:
+                                log.info(
+                                    f'[SteamAutoQueue] Found age check when accessing {link}, skipping.')
+                                browser.find_element(
+                                    by=By.CLASS_NAME, value='next_in_queue_content').click()
+                    except:
+                        if nextQueueCount != 2:
+                            log.info(
+                                '[SteamAutoQueue] Queue is empty, trying to spawn a new one.')
+                            # browser.find_element_by_name('refresh_queue_btn').click()
+                            # browser.find_element(
+                            #     by=By.ID, value='refresh_queue_btn').click()
+                            browser.get(
+                                'https://store.steampowered.com/explore/startnew')
+                            log.info(
+                                '[SteamAutoQueue] Spawned. Now we will continue the work.')
+                            nextQueueCount += 1
+                        else:
+                            Done = True
+                        break
+        except Exception as e:
+            log.error(e)
     log.info('[SteamAutoQueue] SteamAutoQueue\'s work has done!')
     browser.quit()
     os._exit(0)
